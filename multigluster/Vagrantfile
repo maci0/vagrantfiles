@@ -1,0 +1,29 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+VAGRANTFILE_API_VERSION = "2"
+NODE_COUNT = 4
+
+INTNET_NAME = [*('A'..'Z')].sample(8).join
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+
+  config.vm.provider "virtualbox" do |v|
+    v.customize ["modifyvm", :id, "--memory", 256]
+    v.customize ["modifyvm", :id, "--cpus", 2]
+    v.customize ["modifyvm", :id, "--nic2", "intnet", "--intnet2", "#{INTNET_NAME}"]
+  end
+  config.vm.provision :shell, :path => "bootstrap.sh"
+
+
+  for i in 0..NODE_COUNT-1 do
+    node_id = "node#{i}".to_sym
+    config.vm.define node_id, primary: true do |node|
+      node.vm.box_url = "https://dl.dropboxusercontent.com/u/86066173/fedora-19.box"
+      node.vm.box = "fedora19"
+      node.vm.hostname = "#{node_id}.intranet.local"
+    end
+  end
+
+
+end

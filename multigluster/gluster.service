@@ -1,0 +1,9 @@
+<?xml version="1.0" standalone='no'?>
+<!DOCTYPE service-group SYSTEM "avahi-service.dtd">
+<service-group>
+  <name replace-wildcards="yes">gluster server at %h</name>  
+  <service>
+    <type>_gluster._tcp</type>
+    <txt-record>path=/bricks/</txt-record>
+  </service>
+</service-group>
