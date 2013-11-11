@@ -7,7 +7,6 @@ sudo yum -y  install zfs
 sudo systemctl start zfs.service
 sudo systemctl enable zfs.service
 
-
 sudo truncate -s 500G /sdb.img
 sudo truncate -s 500G /sdc.img
 
