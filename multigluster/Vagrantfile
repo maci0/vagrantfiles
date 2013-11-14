@@ -15,7 +15,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
 
-  for i in 0..NODE_COUNT-1 do
+  NODE_COUNT.time do |i|
     node_id = "node#{i}".to_sym
     config.vm.define node_id, primary: true do |node|
       node.vm.box_url = "https://dl.dropboxusercontent.com/u/86066173/fedora-19.box"
