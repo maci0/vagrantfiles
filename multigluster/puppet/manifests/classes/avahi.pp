@@ -15,6 +15,7 @@ file { "/etc/avahi/avahi-daemon.conf":
     ensure => installed,
   }
   service { "avahi-daemon":
+    provider => systemd,
     ensure    => running,
     enable    => true,
   }

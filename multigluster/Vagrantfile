@@ -2,7 +2,7 @@
 # vi: set ft=ruby :
 
 VAGRANTFILE_API_VERSION = "2"
-NODE_COUNT = 1
+NODE_COUNT = 2
 
 INTNET_NAME = [*('A'..'Z')].sample(8).join
 
@@ -18,8 +18,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
 
   NODE_COUNT.times do |i|
-    node_id = "node#{i}".to_sym
-    config.vm.define node_id  do |node|
+    node_id = "node#{i}"
+    config.vm.define node_id do |node|
       node.vm.box_url = "https://dl.dropboxusercontent.com/u/86066173/fedora-19.box"
       node.vm.box = "fedora19"
       node.vm.hostname = "#{node_id}.intranet.local"
