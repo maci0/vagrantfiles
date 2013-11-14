@@ -12,12 +12,14 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     v.customize ["modifyvm", :id, "--memory", 256]
     v.customize ["modifyvm", :id, "--cpus", 2]
     v.customize ["modifyvm", :id, "--nic2", "intnet", "--intnet2", "#{INTNET_NAME}"]
+    v.customize ["modifyvm", :id, "--nictype1", "virtio", "--nictype2", "virtio"]
+
   end
 
 
-  NODE_COUNT.time do |i|
+  NODE_COUNT.times do |i|
     node_id = "node#{i}".to_sym
-    config.vm.define node_id, primary: true do |node|
+    config.vm.define node_id  do |node|
       node.vm.box_url = "https://dl.dropboxusercontent.com/u/86066173/fedora-19.box"
       node.vm.box = "fedora19"
       node.vm.hostname = "#{node_id}.intranet.local"

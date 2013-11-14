@@ -11,6 +11,5 @@ sudo yum clean all
 
 
 #sh -x /vagrant/setup-zfs.sh
-#sh -x /vagrant/setup-avahi.sh
 
 exit 0
