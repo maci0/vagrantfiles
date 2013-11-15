@@ -1,5 +1,4 @@
 class avahi {
-
   exec { "disableselinux":
     command => "/usr/bin/sed -i s/SELINUX=enforcing/SELINUX=disabled/g /etc/selinux/config",
   }

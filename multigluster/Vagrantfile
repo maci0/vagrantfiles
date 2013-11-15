@@ -13,9 +13,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     v.customize ["modifyvm", :id, "--cpus", 2]
     v.customize ["modifyvm", :id, "--nic2", "intnet", "--intnet2", "#{INTNET_NAME}"]
     v.customize ["modifyvm", :id, "--nictype1", "virtio", "--nictype2", "virtio"]
-
   end
-
 
   NODE_COUNT.times do |i|
     node_id = "node#{i}"
@@ -33,6 +31,4 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   config.vm.provision :shell, :path => "bootstrap.sh"
-
-
 end

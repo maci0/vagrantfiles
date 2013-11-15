@@ -15,5 +15,4 @@ class glusterfs {
     enable    => true,
     require => [ Package['glusterfs-server'], Service['rpcbind'] ],
   }
-
 }
