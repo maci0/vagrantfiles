@@ -1,17 +1,11 @@
 class zfs {
-  file { "/etc/pki/rpm-gpg/RPM-GPG-KEY-zfsonlinux":
-    owner => root, group => root, mode => 0444,
-    ensure => present,
-    source => "/vagrant/puppet/files/etc/pki/rpm-gpg/RPM-GPG-KEY-zfsonlinux";
+
+  package { "kernel":
+    ensure => latest,
   }
   
-  file {"/etc/yum.repos.d/zfs.repo":
-    ensure => present,
-    source => "/vagrant/puppet/files/etc/yum.repos.d/zfs.repo";
-  }
-
   package { "zfs":
-    require => [ File['/etc/pki/rpm-gpg/RPM-GPG-KEY-zfsonlinux'], File['/etc/yum.repos.d/zfs.repo'] ],
+    require => [ Exec['zfsreleaserpm'], Package['kernel'] ],
     ensure => installed,
   }
 
@@ -20,9 +14,23 @@ class zfs {
     enable    => true,
     require => Package['zfs'],
   }
+  service { "dkms":
+    ensure    => running,
+    require => Package['zfs'],
+  }
+  service { "dkms_autoinstaller":
+    enable    => true,
+    require => Package['zfs'],
+  }
   
   exec { "create_sdb_sdc_img":
     command => "/bin/truncate -s 500G /sdb.img /sdc.img",
   }
   
+  exec { 'zfsreleaserpm':
+    name => $operatingsystem ? {
+      Fedora => "/bin/yum -y localinstall --nogpgcheck http://archive.zfsonlinux.org/fedora/zfs-release-1-2$(rpm -E %dist).noarch.rpm",
+      CentOS => "/bin/yum -y localinstall --nogpgcheck http://archive.zfsonlinux.org/epel/zfs-release-1-3$(rpm -E %dist).noarch.rpm",
+    }
+   }
 }

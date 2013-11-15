@@ -2,10 +2,13 @@ class avahi {
 
 file { "/etc/avahi/avahi-daemon.conf":
     notify  => Service["avahi-daemon"],
-    require => Package["avahi-daemon"],
+    require => Package["avahi"],
 }
 
-  package { "avahi-daemon":
+  package { "avahi":
+    ensure => installed,
+  }
+  package { "avahi-autoipd":
     ensure => installed,
   }
   package { "avahi-tools":
@@ -15,9 +18,10 @@ file { "/etc/avahi/avahi-daemon.conf":
     ensure => installed,
   }
   service { "avahi-daemon":
-    provider => systemd,
     ensure    => running,
     enable    => true,
+    require => Exec["avahi-daemon.conf"],
+
   }
 
   exec { 'avahi-daemon.conf':

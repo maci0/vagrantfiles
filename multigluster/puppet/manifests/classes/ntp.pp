@@ -4,12 +4,10 @@ class ntp {
   }
 
   service { "ntpdate":
-    provider => systemd,
     enable    => true,
   }
 
   service { "ntpd":
-    provider => systemd,
     ensure    => running,
     enable    => true,
   }
