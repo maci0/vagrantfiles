@@ -2,7 +2,7 @@
 # vi: set ft=ruby :
 
 VAGRANTFILE_API_VERSION = "2"
-NODE_COUNT = 2
+NODE_COUNT = 1
 
 INTNET_NAME = [*('A'..'Z')].sample(8).join
 
