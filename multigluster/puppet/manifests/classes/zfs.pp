@@ -1,9 +1,10 @@
 class zfs {
-  package { "kernel":
-    ensure => latest,
-  }
+#  package { "kernel":
+#    ensure => latest,
+#  }
   package { "zfs":
-    require => [ Exec['zfsreleaserpm'], Package['kernel'] ],
+#    require => [ Exec['zfsreleaserpm'], Package['kernel'] ],
+    require => Exec['zfsreleaserpm'],
     ensure => installed,
   }
   service { "zfs":

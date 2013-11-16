@@ -21,12 +21,14 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       node.vm.box_url = "https://dl.dropboxusercontent.com/u/86066173/fedora-19.box"
       node.vm.box = "fedora19"
       node.vm.hostname = "#{node_id}.intranet.local"
+      
       config.vm.provider "virtualbox" do |v|
         v.customize ["createhd", "--filename", "node#{i}-sdb.vmdk", "--size", 250 * 1024]
         v.customize ["createhd", "--filename", "node#{i}-sdc.vmdk", "--size", 250 * 1024]
         v.customize ["storageattach", :id, "--storagectl", "SATA", "--port", 1, "--device", 0, "--type", "hdd", "--medium", "node#{i}-sdb.vmdk"]
         v.customize ["storageattach", :id, "--storagectl", "SATA", "--port", 2, "--device", 0, "--type", "hdd", "--medium", "node#{i}-sdc.vmdk"]
       end
+      
     end
   end
   

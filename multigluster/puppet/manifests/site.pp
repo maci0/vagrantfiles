@@ -8,4 +8,5 @@ node default {
   include firewall
   include avahi
   include zfs
+  include abrt
 }
