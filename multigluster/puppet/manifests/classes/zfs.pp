@@ -19,9 +19,6 @@ class zfs {
     enable    => true,
     require => Package['zfs'],
   }
-  exec { "create_sdb_sdc_img":
-    command => "/bin/truncate -s 500G /sdb.img /sdc.img",
-  }
   exec { 'zfsreleaserpm':
     name => $operatingsystem ? {
       Fedora => "/bin/yum -y localinstall --nogpgcheck http://archive.zfsonlinux.org/fedora/zfs-release-1-2$(rpm -E %dist).noarch.rpm",

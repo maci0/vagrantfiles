@@ -1,4 +1,9 @@
 class glusterfs {
+  file { "/etc/avahi/services/gluster.service":
+    notify  => Service["avahi-daemon"],
+    require => Service["glusterd"],
+    source  => "/vagrant/puppet/files/etc/avahi/services/gluster.service",
+  }
   package { "glusterfs-server":
     ensure => installed,
   }
