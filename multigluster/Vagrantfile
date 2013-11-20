@@ -2,7 +2,7 @@
 # vi: set ft=ruby :
 
 VAGRANTFILE_API_VERSION = "2"
-NODE_COUNT = 1
+NODE_COUNT = 4
 
 INTNET_NAME = [*('A'..'Z')].sample(8).join
 
@@ -10,7 +10,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.provider "virtualbox" do |v|
     v.customize ["modifyvm", :id, "--memory", 256]
-    v.customize ["modifyvm", :id, "--cpus", 2]
+    v.customize ["modifyvm", :id, "--cpus", 1]
     v.customize ["modifyvm", :id, "--nic2", "intnet", "--intnet2", "#{INTNET_NAME}"]
     v.customize ["modifyvm", :id, "--nictype1", "virtio", "--nictype2", "virtio"]
   end
