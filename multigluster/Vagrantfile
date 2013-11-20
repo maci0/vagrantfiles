@@ -8,21 +8,23 @@ INTNET_NAME = [*('A'..'Z')].sample(8).join
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
-  config.vm.provider "virtualbox" do |v|
-    v.customize ["modifyvm", :id, "--memory", 256]
-    v.customize ["modifyvm", :id, "--cpus", 1]
-    v.customize ["modifyvm", :id, "--nic2", "intnet", "--intnet2", "#{INTNET_NAME}"]
-    v.customize ["modifyvm", :id, "--nictype1", "virtio", "--nictype2", "virtio"]
-  end
-
   NODE_COUNT.times do |i|
     node_id = "node#{i}"
+    
     config.vm.define node_id do |node|
-      node.vm.box_url = "https://dl.dropboxusercontent.com/u/86066173/fedora-19.box"
+      node.vm.box_url = "http://www.krishnaraman.net/downloads/f19.box"
       node.vm.box = "fedora19"
       node.vm.hostname = "#{node_id}.intranet.local"
       
+      config.vm.provider :libvirt do |libvirt|
+        libvirt.vm.box_url = "http://www.krishnaraman.net/downloads/f19-libvirt.box"
+      end
+      
       config.vm.provider "virtualbox" do |v|
+        v.customize ["modifyvm", :id, "--memory", 256]
+        v.customize ["modifyvm", :id, "--cpus", 1]
+        v.customize ["modifyvm", :id, "--nic2", "intnet", "--intnet2", "#{INTNET_NAME}"]
+        v.customize ["modifyvm", :id, "--nictype1", "virtio", "--nictype2", "virtio"]
         v.customize ["createhd", "--filename", "node#{i}-sdb.vmdk", "--size", 250 * 1024]
         v.customize ["createhd", "--filename", "node#{i}-sdc.vmdk", "--size", 250 * 1024]
         v.customize ["storageattach", :id, "--storagectl", "SATA", "--port", 1, "--device", 0, "--type", "hdd", "--medium", "node#{i}-sdb.vmdk"]
